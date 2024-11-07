@@ -4,16 +4,13 @@ layout: default
 
 <h2>All Notes</h2>
 <ul id="notes-list">
-  {% for post in site.posts %}
+  {% for note in site.notes %}
   <li>
-    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    - Categories: {{ post.categories | join: ', ' }} - Key Terms: {{
-    post.keyterms | join: ', ' }}
+    <a href="{{ note.url | relative_url }}">{{ note.title }}</a>
+    - Categories: {{ note.categories | join: ', ' }} - Key Terms: {{ note.keyterms | join: ', ' }}
   </li>
   {% endfor %}
 </ul>
-
-<!-- Search functionality remains the same -->
 
 <!-- Search Input -->
 <input type="text" id="search-input" placeholder="Search by keyword..." />
@@ -39,25 +36,32 @@ layout: default
 
       // Handle search input
       document.getElementById('search-input').addEventListener('input', function () {
-        var query = this.value;
+        var query = this.value.trim();
         var results = idx.search(query);
         var resultsList = document.getElementById('search-results');
         var notesList = document.getElementById('notes-list');
+
         if (query) {
           notesList.style.display = 'none';
+          resultsList.innerHTML = '';
+
+          if (results.length > 0) {
+            results.forEach(function (result) {
+              var item = data.find(d => d.url === result.ref);
+              var li = document.createElement('li');
+              var a = document.createElement('a');
+              a.href = item.url;
+              a.textContent = item.title;
+              li.appendChild(a);
+              resultsList.appendChild(li);
+            });
+          } else {
+            resultsList.innerHTML = '<li>No results found</li>';
+          }
         } else {
           notesList.style.display = 'block';
+          resultsList.innerHTML = '';
         }
-        resultsList.innerHTML = '';
-        results.forEach(function (result) {
-          var item = data.find(d => d.url === result.ref);
-          var li = document.createElement('li');
-          var a = document.createElement('a');
-          a.href = item.url;
-          a.textContent = item.title;
-          li.appendChild(a);
-          resultsList.appendChild(li);
-        });
       });
     });
 </script>
