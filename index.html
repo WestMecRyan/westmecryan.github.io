@@ -4,58 +4,60 @@ layout: default
 
 <h2>All Notes</h2>
 <ul id="notes-list">
-  {% for note in site.notes %}
+  {% for post in site.posts %}
   <li>
-    <a href="{{ note.url | relative_url }}">{{ note.title }}</a>
-    - Categories: {{ note.categories | join: ', ' }}
-    - Key Terms: {{ note.keyterms | join: ', ' }}
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    - Categories: {{ post.categories | join: ', ' }} - Key Terms: {{
+    post.keyterms | join: ', ' }}
   </li>
   {% endfor %}
 </ul>
 
+<!-- Search functionality remains the same -->
+
 <!-- Search Input -->
-<input type="text" id="search-input" placeholder="Search by keyword...">
+<input type="text" id="search-input" placeholder="Search by keyword..." />
 <ul id="search-results"></ul>
 
 <!-- Include Lunr.js and Custom Search Script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
 <script>
-// Fetch the search index data
-fetch('{{ '/search.json' | relative_url }}')
-  .then(response => response.json())
-  .then(data => {
-    var idx = lunr(function () {
-      this.ref('url');
-      this.field('title');
-      this.field('content');
-      this.field('categories');
-      this.field('keyterms');
-      data.forEach(function (doc) {
-        this.add(doc)
-      }, this)
-    });
+  // Fetch the search index data
+  fetch('{{ '/search.json' | relative_url }}')
+    .then(response => response.json())
+    .then(data => {
+      var idx = lunr(function () {
+        this.ref('url');
+        this.field('title');
+        this.field('content');
+        this.field('categories');
+        this.field('keyterms');
+        data.forEach(function (doc) {
+          this.add(doc)
+        }, this)
+      });
 
-    // Handle search input
-    document.getElementById('search-input').addEventListener('input', function () {
-      var query = this.value;
-      var results = idx.search(query);
-      var resultsList = document.getElementById('search-results');
-      var notesList = document.getElementById('notes-list');
-      if (query) {
-        notesList.style.display = 'none';
-      } else {
-        notesList.style.display = 'block';
-      }
-      resultsList.innerHTML = '';
-      results.forEach(function (result) {
-        var item = data.find(d => d.url === result.ref);
-        var li = document.createElement('li');
-        var a = document.createElement('a');
-        a.href = item.url;
-        a.textContent = item.title;
-        li.appendChild(a);
-        resultsList.appendChild(li);
+      // Handle search input
+      document.getElementById('search-input').addEventListener('input', function () {
+        var query = this.value;
+        var results = idx.search(query);
+        var resultsList = document.getElementById('search-results');
+        var notesList = document.getElementById('notes-list');
+        if (query) {
+          notesList.style.display = 'none';
+        } else {
+          notesList.style.display = 'block';
+        }
+        resultsList.innerHTML = '';
+        results.forEach(function (result) {
+          var item = data.find(d => d.url === result.ref);
+          var li = document.createElement('li');
+          var a = document.createElement('a');
+          a.href = item.url;
+          a.textContent = item.title;
+          li.appendChild(a);
+          resultsList.appendChild(li);
+        });
       });
     });
-  });
 </script>

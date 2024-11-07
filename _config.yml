@@ -5,6 +5,8 @@ url: "https://westmecryan.github.io" # Replace with your actual URL
 
 theme: minima # You can choose a different theme if you like
 
+markdown: kramdown
+
 collections:
   notes:
     output: true
