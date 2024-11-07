@@ -1,0 +1,12 @@
+[
+  {% assign notes = site.notes | sort: 'title' %}
+  {% for note in notes %}
+  {
+    "title": "{{ note.title | escape }}",
+    "url": "{{ note.url | relative_url }}",
+    "content": "{{ note.content | strip_html | strip_newlines | escape }}",
+    "categories": {{ note.categories | jsonify }},
+    "keyterms": {{ note.keyterms | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]

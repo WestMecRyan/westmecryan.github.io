@@ -1,0 +1,10 @@
+title: "My Notes and Articles"
+description: "A collection of notes and articles with search functionality"
+baseurl: "" # Leave empty for user site
+url: "https://westmecryan.github.io" # Replace with your actual URL
+
+theme: minima # You can choose a different theme if you like
+
+collections:
+  notes:
+    output: true
