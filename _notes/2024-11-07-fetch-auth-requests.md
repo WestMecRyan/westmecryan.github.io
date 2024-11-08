@@ -1,5 +1,5 @@
 ---
-title: "JavaScript Basics"
+title: "API Auth Requests"
 date: 2024-11-07
 categories: [JavaScript, Basics, API]
 keyterms: ["authentication", "jwt", "bearer", "token", "btoa", "headers" ]
