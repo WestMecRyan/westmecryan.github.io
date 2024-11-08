@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-</head>
-<body>
-  <header>
-    <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-  </header>
-  <article>
-    <h2>{{ page.title }}</h2>
-    <p><strong>Date:</strong> {{ page.date | date: "%B %d, %Y" }}</p>
-    <p><strong>Categories:</strong> {{ page.categories | join: ', ' }}</p>
-    <p><strong>Key Terms:</strong> {{ page.keyterms | join: ', ' }}</p>
-    <hr>
-    {{ content }}
-  </article>
-  <footer>
-    <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ page.title }}</title>
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/style.css' | relative_url }}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+    </header>
+    <article>
+      <h1>{{ page.title }}</h1>
+      <p class="post-meta">
+        <span><strong>Date:</strong> {{ page.date | date: "%B %d, %Y" }}</span>
+        |
+        <span
+          ><strong>Categories:</strong> {{ page.categories | join: ', ' }}</span
+        >
+        |
+        <span
+          ><strong>Key Terms:</strong> {{ page.keyterms | join: ', ' }}</span
+        >
+      </p>
+      {{ content }}
+    </article>
+    <footer>
+      <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</p>
+    </footer>
+  </body>
 </html>
